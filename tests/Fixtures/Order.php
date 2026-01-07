@@ -6,20 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Istoy\Contracts\OrderContract;
 use Istoy\Models\Enums\OrderStatuses;
+use Istoy\Traits\HasIstoyFields;
 
 class Order extends Model implements OrderContract
 {
-    protected $table = 'orders';
+    use HasIstoyFields;
 
-    protected $fillable = [
-        'external_id',
-        'service',
-        'link',
-        'quantity',
-        'status',
-        'start_count',
-        'remains',
-    ];
+    protected $table = 'orders';
 
     protected $casts = [
         'status' => OrderStatuses::class,

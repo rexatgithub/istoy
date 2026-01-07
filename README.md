@@ -157,7 +157,26 @@ return new class extends Migration
 
 Your Order model should implement the following:
 
-1. **Add these to your `$fillable` array:**
+1. **Use the `HasIstoyFields` trait (Recommended):**
+   
+   The easiest way is to use the provided trait which automatically adds all required fields to your `$fillable` array:
+
+   ```php
+   use Istoy\Traits\HasIstoyFields;
+   use Istoy\Contracts\OrderContract;
+
+   class Order extends Model implements OrderContract
+   {
+       use HasIstoyFields;
+       
+       // Your other model code...
+       // The fillable fields are automatically added!
+   }
+   ```
+
+   **Or manually add to `$fillable` (if you prefer):**
+   
+   If you don't want to use the trait, you can manually add these fields to your `$fillable` array:
    - `external_id`
    - `service`
    - `link`
@@ -181,10 +200,46 @@ public function scopeWithExternalId(Builder $query, $externalId): Builder
 
 ```php
 use Istoy\Contracts\OrderContract;
+use Istoy\Traits\HasIstoyFields;
 
 class Order extends Model implements OrderContract
 {
-    // Your model code
+    use HasIstoyFields;
+    
+    // All Istoy fields are automatically fillable!
+    // You can still add your own fillable fields if needed
+}
+```
+
+**Complete Example:**
+
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Istoy\Contracts\OrderContract;
+use Istoy\Traits\HasIstoyFields;
+use Istoy\Models\Enums\OrderStatuses;
+
+class Order extends Model implements OrderContract
+{
+    use HasIstoyFields;
+
+    protected $fillable = [
+        // Your custom fields here (Istoy fields are added automatically)
+        'user_id',
+        'payment_status',
+    ];
+
+    protected $casts = [
+        'status' => OrderStatuses::class,
+    ];
+
+    public function scopeWithExternalId(Builder $query, $externalId): Builder
+    {
+        return $query->where('external_id', $externalId);
+    }
 }
 ```
 

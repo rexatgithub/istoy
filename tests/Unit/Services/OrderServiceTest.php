@@ -13,14 +13,6 @@ use Mockery;
 
 class OrderServiceTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Create orders table for testing
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-    }
-
     protected function defineDatabaseMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
@@ -34,7 +26,10 @@ class OrderServiceTest extends TestCase
 
     public function test_order_service_can_be_instantiated_with_model()
     {
-        $order = new Order();
+        $order = new Order([
+            'link' => 'https://example.com/post',
+            'quantity' => 100,
+        ]);
         $service = new OrderService($order);
 
         $this->assertInstanceOf(OrderService::class, $service);
@@ -61,6 +56,8 @@ class OrderServiceTest extends TestCase
         $order = new Order([
             'external_id' => '12345',
             'status' => OrderStatuses::InProgress,
+            'link' => 'https://example.com/post',
+            'quantity' => 100,
         ]);
         $order->save();
 

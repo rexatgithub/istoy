@@ -15,7 +15,7 @@ class ServiceTest extends TestCase
 {
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../../../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../../../database/migrations');
     }
 
     public function test_service_returns_correct_provider_id()

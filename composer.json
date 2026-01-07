@@ -23,8 +23,14 @@
         "mockery/mockery": "^1.5"
     },
     "scripts": {
-        "test": "phpunit",
-        "test-coverage": "phpunit --coverage-html coverage"
+        "test": [
+            "@php -r \"if (!file_exists('vendor/bin/phpunit')) { echo PHP_EOL . '❌ Dependencies not installed.' . PHP_EOL . PHP_EOL . 'Please run: composer install' . PHP_EOL . PHP_EOL; exit(1); }\"",
+            "vendor/bin/phpunit"
+        ],
+        "test-coverage": [
+            "@php -r \"if (!file_exists('vendor/bin/phpunit')) { echo PHP_EOL . '❌ Dependencies not installed.' . PHP_EOL . PHP_EOL . 'Please run: composer install' . PHP_EOL . PHP_EOL; exit(1); }\"",
+            "vendor/bin/phpunit --coverage-html coverage"
+        ]
     },
     "autoload": {
         "psr-4": {
@@ -49,6 +55,10 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [{
+        "name": "packagist",
+        "type": "composer",
+        "url": "https://packagist.jp"
+    }]
 }
-

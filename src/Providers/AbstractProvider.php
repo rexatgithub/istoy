@@ -13,7 +13,7 @@ abstract class AbstractProvider
      * @param int|null $interval
      * @return void
      */
-    abstract public function add(?int $interval = null);
+    abstract public function add(?int $interval = null): void;
 
     /**
      * Order Service base on Istoy\Providers\Factory;
@@ -22,14 +22,14 @@ abstract class AbstractProvider
      *
      * @return int
      */
-    abstract public function getId();
+    abstract public function getId(): int;
 
     /**
      * Check orders status
      *
      * @return void
      */
-    abstract public function statuses();
+    abstract public function statuses(): void;
 
     /**
      * Create Provider instance

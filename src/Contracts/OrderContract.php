@@ -13,9 +13,10 @@ interface OrderContract
      * Update the order with given attributes
      *
      * @param array $attributes
-     * @return bool
+     * @param array $options
+     * @return bool|static
      */
-    public function update(array $attributes = []): bool;
+    public function update(array $attributes = [], array $options = []);
 
     /**
      * Scope to find order by external ID
@@ -24,6 +25,6 @@ interface OrderContract
      * @param string|int $externalId
      * @return Builder
      */
-    public function scopeWithExternalId(Builder $query, $externalId): Builder;
+    public function scopeWithExternalId(Builder $query, string|int $externalId): Builder;
 }
 

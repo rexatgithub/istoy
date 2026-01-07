@@ -32,7 +32,7 @@ class Order extends Model implements OrderContract
      * @param string|int $externalId
      * @return Builder
      */
-    public function scopeWithExternalId(Builder $query, $externalId): Builder
+    public function scopeWithExternalId(Builder $query, string|int $externalId): Builder
     {
         return $query->where('external_id', $externalId);
     }

@@ -24,6 +24,8 @@ class Service extends AbstractProvider
 
     /**
      * Add Order
+     * 
+     * Push the order to the external provider
      *
      * @param int|null $interval
      * @return void
@@ -56,6 +58,8 @@ class Service extends AbstractProvider
 
     /**
      * Check orders status
+     * 
+     * Update the order status based on the external provider response
      *
      * @return void
      */

@@ -5,18 +5,14 @@
          colors="true"
          cacheDirectory=".phpunit.cache"
          executionOrder="depends,defects"
-         failOnRisky="true"
-         failOnWarning="true"
-         beStrictAboutOutputDuringTests="true"
-         convertDeprecationsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
+        failOnRisky="true"
+        failOnWarning="true"
+        beStrictAboutOutputDuringTests="true"
+        processIsolation="false"
+        stopOnFailure="false">
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
     <source>

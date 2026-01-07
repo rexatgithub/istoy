@@ -10,7 +10,37 @@ A Laravel package for managing social media service providers (SMM) with an exte
 - **Request Definitions**: Structured HTTP request handling with validation
 - **Status Synchronization**: Sync order statuses between your application and external providers
 
+## Requirements
+
+- PHP ^8.0.2
+- Composer
+- Laravel ^9.0|^10.0|^11.0
+
 ## Installation
+
+### Installing PHP and Composer (macOS)
+
+If you don't have PHP and Composer installed:
+
+**Using Homebrew:**
+```bash
+# Install Homebrew if you don't have it
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install PHP
+brew install php
+
+# Install Composer
+brew install composer
+```
+
+**Or download Composer directly:**
+```bash
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+sudo mv composer.phar /usr/local/bin/composer
+```
 
 ### Via Composer
 
@@ -272,14 +302,32 @@ class CustomRequest extends RequestDefinition
 
 The package includes a comprehensive test suite using PHPUnit and Orchestra Testbench.
 
-### Running Tests
+### Setup for Testing
+
+**Important:** You must install dependencies before running tests.
+
+First, install development dependencies:
 
 ```bash
-# Run all tests
+composer install
+```
+
+### Running Tests
+
+Once dependencies are installed, you can run tests:
+
+```bash
+# Run all tests (recommended)
 composer test
+
+# Or run PHPUnit directly
+vendor/bin/phpunit
 
 # Run tests with coverage
 composer test-coverage
+
+# Or run PHPUnit with coverage directly
+vendor/bin/phpunit --coverage-html coverage
 ```
 
 ### Test Structure
@@ -306,11 +354,6 @@ The tests cover:
 ## License
 
 MIT
-
-## Repository
-
-This project is available on GitHub:
-- **Repository**: [rexatgithub/istoy](https://github.com/rexatgithub/istoy)
 
 ## Support
 

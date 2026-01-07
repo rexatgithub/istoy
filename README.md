@@ -15,7 +15,7 @@ A Laravel package for managing social media service providers (SMM) with an exte
 ### Via Composer
 
 ```bash
-composer require istoy/istoy
+composer require rexatgithub/istoy
 ```
 
 ### Publish Configuration

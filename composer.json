@@ -1,5 +1,5 @@
 {
-    "name": "istoy/istoy",
+    "name": "rexatgithub/istoy",
     "description": "Istoy - A Laravel package for managing social media service providers (SMM) with extensible provider architecture",
     "type": "library",
     "license": "MIT",

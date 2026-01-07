@@ -270,9 +270,38 @@ class CustomRequest extends RequestDefinition
 
 ## Testing
 
+The package includes a comprehensive test suite using PHPUnit and Orchestra Testbench.
+
+### Running Tests
+
 ```bash
+# Run all tests
 composer test
+
+# Run tests with coverage
+composer test-coverage
 ```
+
+### Test Structure
+
+The test suite includes:
+
+- **Unit Tests**: Tests for individual components
+  - Enums (Services, OrderStatuses, Statuses)
+  - Factory pattern for provider creation
+  - OrderService for order management
+  - SMM Service provider
+  - Request definitions (Add, Status)
+  - Generic request definition base classes
+
+### Test Coverage
+
+The tests cover:
+- Provider registration and factory pattern
+- Order creation and status synchronization
+- Request definition validation
+- Enum functionality and mappings
+- Error handling and edge cases
 
 ## License
 

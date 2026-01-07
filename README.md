@@ -48,13 +48,19 @@ sudo mv composer.phar /usr/local/bin/composer
 composer require rexatgithub/istoy
 ```
 
-### Publish Configuration
+### Publish Configuration and Migrations
 
 ```bash
+# Publish configuration
 php artisan vendor:publish --tag=istoy-config
+
+# Publish migration (optional - see Order Model Setup below)
+php artisan vendor:publish --tag=istoy-migrations
 ```
 
-This will publish the configuration file to `config/istoy.php`.
+This will publish:
+- Configuration file to `config/istoy.php`
+- Migration file to `database/migrations/` (if you choose to publish it)
 
 ## Configuration
 
@@ -70,18 +76,97 @@ ISTOY_ORDER_MODEL=App\Models\Order
 
 ### Order Model Setup
 
+Your Order model must have the following required columns. The package provides a migration to help you set this up.
+
+#### Option 1: Using the Package Migration (Recommended for New Projects)
+
+If you don't have an `orders` table yet, or want to add the required columns:
+
+1. **Publish the migration:**
+   ```bash
+   php artisan vendor:publish --tag=istoy-migrations
+   ```
+
+2. **Run the migration:**
+   ```bash
+   php artisan migrate
+   ```
+
+The migration will:
+- Create the `orders` table with all required columns if it doesn't exist
+- Add missing columns to an existing `orders` table if it already exists
+- Safely skip columns that already exist
+
+#### Option 2: Manual Setup (For Existing Order Tables)
+
+If you already have an `orders` table with different structure, you can manually add the required columns:
+
+**Required columns:**
+   - `external_id` (string/int, nullable) - ID from the external provider
+   - `service` (int, nullable) - Service ID
+   - `link` (string, required) - URL to the social media post
+   - `quantity` (int, required) - Quantity of services to order
+   - `status` (string, default: 'pending') - Order status
+   - `start_count` (int, default: 0) - Starting count
+   - `remains` (int, default: 0) - Remaining count
+
+**Example migration:**
+```php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('orders', function (Blueprint $table) {
+            if (!Schema::hasColumn('orders', 'external_id')) {
+                $table->string('external_id')->nullable()->after('id');
+            }
+            if (!Schema::hasColumn('orders', 'service')) {
+                $table->integer('service')->nullable()->after('external_id');
+            }
+            if (!Schema::hasColumn('orders', 'link')) {
+                $table->string('link')->after('service');
+            }
+            if (!Schema::hasColumn('orders', 'quantity')) {
+                $table->integer('quantity')->after('link');
+            }
+            if (!Schema::hasColumn('orders', 'status')) {
+                $table->string('status')->default('pending')->after('quantity');
+            }
+            if (!Schema::hasColumn('orders', 'start_count')) {
+                $table->integer('start_count')->default(0)->after('status');
+            }
+            if (!Schema::hasColumn('orders', 'remains')) {
+                $table->integer('remains')->default(0)->after('start_count');
+            }
+        });
+    }
+
+    public function down(): void
+    {
+        // Optionally remove columns if needed
+        // Be careful not to lose data!
+    }
+};
+```
+
+#### Model Requirements
+
 Your Order model should implement the following:
 
-1. Have these fillable attributes:
-   - `external_id` (string/int) - ID from the external provider
-   - `service` (int) - Service ID
-   - `link` (string) - URL to the social media post
-   - `quantity` (int) - Quantity of services to order
-   - `status` (enum) - Order status
-   - `start_count` (int) - Starting count
-   - `remains` (int) - Remaining count
+1. **Add these to your `$fillable` array:**
+   - `external_id`
+   - `service`
+   - `link`
+   - `quantity`
+   - `status`
+   - `start_count`
+   - `remains`
 
-2. Implement a scope for finding by external ID:
+2. **Implement a scope for finding by external ID:**
 
 ```php
 use Illuminate\Database\Eloquent\Builder;

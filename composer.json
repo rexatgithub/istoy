@@ -1,0 +1,49 @@
+{
+    "name": "istoy/istoy",
+    "description": "Istoy - A Laravel package for managing social media service providers (SMM) with extensible provider architecture",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "social-media",
+        "smm",
+        "provider",
+        "service"
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "guzzlehttp/guzzle": "^7.2",
+        "illuminate/support": "^9.0|^10.0|^11.0",
+        "illuminate/database": "^9.0|^10.0|^11.0",
+        "illuminate/http": "^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.5|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Istoy\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Istoy\\Tests\\": "tests/"
+        }
+    },
+    "homepage": "https://github.com/rexatgithub/istoy",
+    "support": {
+        "source": "https://github.com/rexatgithub/istoy",
+        "issues": "https://github.com/rexatgithub/istoy/issues"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Istoy\\IstoyServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+

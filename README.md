@@ -302,40 +302,6 @@ $smmService->add(interval: 5);
 $smmService->statuses();
 ```
 
-## Available Services
-
-The package includes the following service types:
-
-- `HighQualityLikes` - High-quality likes service
-- `PremiumQualityLikes` - Premium-quality likes service
-- `HighQualityViews` - High-quality views service
-- `PremiumQualityViews` - Premium-quality views service
-- `Comments` - Comments service
-
-### Using Services Enum
-
-```php
-use Istoy\Models\Enums\Services;
-
-// Get service ID
-$serviceId = Services::HighQualityLikes->id();
-
-// Get minimum quantity
-$min = Services::HighQualityLikes->minimum();
-
-// Get maximum quantity
-$max = Services::HighQualityLikes->maximum();
-
-// Get service description
-$description = Services::HighQualityLikes->description();
-
-// Get all likes services
-$likesServices = Services::likes();
-
-// Get all views services
-$viewsServices = Services::views();
-```
-
 ## Creating Custom Providers
 
 To create a custom provider:

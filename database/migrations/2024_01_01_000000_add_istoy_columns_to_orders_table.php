@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Istoy\Services\OrderService;
 
 return new class extends Migration
 {
@@ -94,13 +95,12 @@ return new class extends Migration
     protected function getTableName(): string
     {
         try {
-            $orderModel = config('istoy.order_model');
+            $orderFqn = OrderService::orderFqn();
 
-            if ($orderModel && class_exists($orderModel)) {
-                $model = app($orderModel);
-                return $model->getTable();
-            }
-        } catch (\Exception $e) {
+            $model = app($orderFqn);
+            return $model->getTable();
+            
+        } catch (Exception $e) {
             // Fallback to default if model can't be instantiated
         }
 

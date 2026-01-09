@@ -99,5 +99,10 @@ class CustomTestProvider extends AbstractProvider
     {
         // Test implementation
     }
+
+    public function cancel(): void
+    {
+        // Test implementation
+    }
 }
 

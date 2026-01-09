@@ -216,5 +216,63 @@ class ServiceTest extends TestCase
         $order->refresh();
         $this->assertEquals(OrderStatuses::Cancelled, $order->status);
     }
+
+    public function test_cancel_updates_order_status()
+    {
+        $order1 = new Order([
+            'external_id' => '12345',
+            'status' => OrderStatuses::InProgress,
+            'link' => 'https://example.com/post1',
+            'quantity' => 100,
+        ]);
+        $order1->save();
+
+        $order2 = new Order([
+            'external_id' => '67890',
+            'status' => OrderStatuses::InProgress,
+            'link' => 'https://example.com/post2',
+            'quantity' => 200,
+        ]);
+        $order2->save();
+
+        $order3 = new Order([
+            'external_id' => '88888',
+            'status' => OrderStatuses::InProgress,
+            'link' => 'https://example.com/post2',
+            'quantity' => 200,
+        ]);
+        $order3->save();
+
+        Http::fake([
+            '*' => Http::response([
+                [
+                    'order' => '12345',
+                    'cancel' => 1,
+                ],
+                [
+                    'order' => '67890',
+                   'cancel' => 1,
+                ],
+                [
+                    'order' => '88888',
+                    'cancel' => [
+                        'error' => 'Incorrect order ID',
+                    ]
+                ],
+            ], 200),
+        ]);
+
+        $collection = new Collection([$order1, $order2, $order3]);
+        $service = new Service($collection);
+        $service->cancel();
+
+        $order1->refresh();
+        $order2->refresh();
+        $order3->refresh();
+
+        $this->assertEquals(OrderStatuses::Cancelled, $order1->status);
+        $this->assertEquals(OrderStatuses::Cancelled, $order2->status);
+        $this->assertEquals(OrderStatuses::InProgress, $order3->status);
+    }
 }
 

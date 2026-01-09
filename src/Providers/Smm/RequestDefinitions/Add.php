@@ -3,6 +3,7 @@
 namespace Istoy\Providers\Smm\RequestDefinitions;
 
 use Illuminate\Validation\Rule;
+use Istoy\Providers\Smm\Enums\Action;
 
 class Add extends AbstractRequestDefinition
 {
@@ -18,11 +19,14 @@ class Add extends AbstractRequestDefinition
         return self::HTTP_POST;
     }
 
-    public function payload(): ?array
+    public function action(): Action
+    {
+        return Action::Add;
+    }
+
+    public function orderPayload(): array
     {
         $payload = [
-            'key' => config('istoy.providers.smm.key'),
-            'action' => self::ACTION_ADD,
             'service' => $this->model->service,
             'link' => $this->model->link,
             'quantity' => $this->model->quantity,
@@ -38,8 +42,7 @@ class Add extends AbstractRequestDefinition
     public function rules(): array
     {
         $rules = [
-            'key' => ['required'],
-            'action' => ['required', Rule::in(self::ACTIONS)],
+            ...parent::rules(),
             'service' => ['required', 'integer'],
             'link' => ['required', 'url'],
             'quantity' => ['required', 'integer'],

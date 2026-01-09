@@ -40,5 +40,12 @@ abstract class AbstractProvider
      * @return void
      */
     abstract public function statuses(): void;
+
+    /**
+     * Cancel Order
+     *
+     * @return void
+     */
+    abstract public function cancel(): void;
 }
 

@@ -4,18 +4,12 @@ namespace Istoy\Providers\Smm\RequestDefinitions;
 
 use Istoy\RequestDefinitions\RequestDefinition;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Istoy\Contracts\OrderContract;
+use Istoy\Providers\Smm\Enums\Action;
 
 abstract class AbstractRequestDefinition extends RequestDefinition
 {
-    /**
-     * Action type here
-     */
-    public const ACTION_ADD = 'add';
-    public const ACTION_STATUS = 'status';
-
-    public const ACTIONS = [self::ACTION_ADD, self::ACTION_STATUS];
-
     /**
      * SMM Base URL
      *
@@ -30,5 +24,27 @@ abstract class AbstractRequestDefinition extends RequestDefinition
     {
         //
     }
+
+   
+    abstract public function action(): Action;
+
+    public function payload(): array
+    {
+        return [
+            'key' => config('istoy.providers.smm.key'),
+            'action' => $this->action()->value,
+            ...$this->orderPayload(),
+        ];
+    }
+
+    public function rules(): array
+    {
+        return [
+            'key' => ['required'],
+            'action' => ['required', Rule::enum(Action::class)],
+        ];
+    }
+
+    abstract public function orderPayload(): array;
 }
 

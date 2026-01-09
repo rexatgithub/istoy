@@ -9,7 +9,7 @@ use Istoy\Providers\Smm\Enums\Action;
 /**
  * @link https://smmlite.com/api Order Status Section
  */
-class Status extends AbstractRequestDefinition
+class Cancel extends AbstractRequestDefinition
 {
     public function method(): string
     {
@@ -18,7 +18,7 @@ class Status extends AbstractRequestDefinition
 
     public function action(): Action
     {
-        return Action::Status;
+        return Action::Cancel;
     }
 
     /**

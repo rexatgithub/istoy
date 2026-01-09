@@ -8,6 +8,9 @@ use Istoy\Providers\Smm\Enums\Statuses;
 use Istoy\Providers\Smm\RequestDefinitions\Add;
 use Istoy\Providers\Smm\RequestDefinitions\Status;
 use Exception;
+use Istoy\Models\Enums\OrderStatuses;
+use Istoy\Providers\Smm\RequestDefinitions\Cancel;
+use Istoy\Services\OrderService;
 
 class Service extends AbstractProvider
 {
@@ -74,14 +77,7 @@ class Service extends AbstractProvider
                 return;
             }
 
-            // Get the order model class from config or use a default
-            $orderClass = config('istoy.order_model');
-            
-            if (!$orderClass || !class_exists($orderClass)) {
-                throw new Exception('Order model class not configured or does not exist');
-            }
-
-            $orderClass::withExternalId($externalId)
+            OrderService::orderFqn()::withExternalId($externalId)
                 ->first()
                 ?->update([
                     'status' => Statuses::tryFrom(
@@ -91,6 +87,34 @@ class Service extends AbstractProvider
                     'remains' => ($externalRecord['remains'] ?? 0) * 1,
                 ]);
         });
+    }
+
+    /**
+     * Cancel Order
+     *
+     * @return void
+     */
+    public function cancel(): void
+    {
+        $response = (new Cancel($this->model))->send()->throw();
+
+        /**
+         * Only update the successfully cancelled orders
+         * 
+         * @todo record the failed cancel messages
+         */
+        $orderIds = collect($response->json())
+            ->filter(fn($order) => $order['cancel'] === 1)
+            ->values()
+            ->pluck('order');
+
+        if ($orderIds->isEmpty()) {
+            return;
+        }
+
+        OrderService::orderFqn()::whereIn('external_id', $orderIds)->update([
+            'status' => OrderStatuses::Cancelled,
+        ]);
     }
 }
 

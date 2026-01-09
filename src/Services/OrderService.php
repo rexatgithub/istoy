@@ -5,13 +5,13 @@ namespace Istoy\Services;
 use Istoy\Models\Enums\OrderStatuses;
 use Istoy\Providers\Factory;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Istoy\Contracts\OrderContract;
 
 class OrderService
 {
-    public function __construct(protected Model|Collection $instance)
+    public function __construct(protected OrderContract|Collection $instance)
     {
     }
 
@@ -106,6 +106,24 @@ class OrderService
         Factory::create($this->instance)->statuses();
 
         return $this;
+    }
+
+    public function cancel(): self
+    {
+        Factory::create($this->instance)->cancel();
+
+        return $this;
+    }
+
+    public static function orderFqn(): string
+    {
+        $orderFqn = config('istoy.order_model');
+
+        if (!$orderFqn || !class_exists($orderFqn)) {
+            throw new Exception('Order model class not configured or does not exist');
+        }
+
+        return $orderFqn;
     }
 }
 

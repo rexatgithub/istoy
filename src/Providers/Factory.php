@@ -2,9 +2,10 @@
 
 namespace Istoy\Providers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Istoy\Contracts\OrderContract;
+use Istoy\Providers\Smm;
 
 class Factory
 {
@@ -19,7 +20,7 @@ class Factory
      * @var array<int, string>
      */
     protected static array $providers = [
-        self::PROVIDER_SMM => \Istoy\Providers\Smm\Service::class,
+        self::PROVIDER_SMM => Smm\Service::class,
     ];
 
     /**
@@ -47,12 +48,12 @@ class Factory
     /**
      * Create Provider instance
      *
-     * @param Model|Collection $model
+     * @param OrderContract|Collection<OrderContract> $model
      * @param int|null $providerId
      * @return AbstractProvider
      * @throws \Exception
      */
-    public static function create(Model|Collection $model, ?int $providerId = null): AbstractProvider
+    public static function create(OrderContract|Collection $model, ?int $providerId = null): AbstractProvider
     {
         $providerId = $providerId ?? self::PROVIDER_SMM;
         $providerClass = static::$providers[$providerId] ?? null;

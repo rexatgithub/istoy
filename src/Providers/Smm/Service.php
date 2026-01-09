@@ -2,7 +2,6 @@
 
 namespace Istoy\Providers\Smm;
 
-use Istoy\Contracts\OrderContract;
 use Istoy\Providers\AbstractProvider;
 use Istoy\Providers\Factory;
 use Istoy\Providers\Smm\Enums\Statuses;

@@ -3,8 +3,8 @@
 namespace Istoy\Providers\Smm\RequestDefinitions;
 
 use Istoy\RequestDefinitions\RequestDefinition;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Istoy\Contracts\OrderContract;
 
 abstract class AbstractRequestDefinition extends RequestDefinition
 {
@@ -26,7 +26,7 @@ abstract class AbstractRequestDefinition extends RequestDefinition
         return config('istoy.providers.smm.host');
     }
 
-    public function __construct(protected Model|Collection $model)
+    public function __construct(protected OrderContract|Collection $model)
     {
         //
     }

@@ -78,6 +78,14 @@ abstract class RequestDefinition extends GenericRequestDefinition
         return [];
     }
 
+
+    /**
+     * Request resolver
+     *
+     * @var Closure
+     */
+    protected Closure $requestResolver;
+
     /**
      * Combine the form params, json data, and query string params into a single
      * array to be used to validate the request.

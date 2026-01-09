@@ -4,9 +4,19 @@ namespace Istoy\Providers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Istoy\Contracts\OrderContract;
 
 abstract class AbstractProvider
 {
+    /**
+     * Create Provider instance
+     *
+     * @param Model|Collection<OrderContract> $model
+     */
+    public function __construct(protected OrderContract|Collection $model)
+    {
+    }
+
     /**
      * Add Order
      *
@@ -30,14 +40,5 @@ abstract class AbstractProvider
      * @return void
      */
     abstract public function statuses(): void;
-
-    /**
-     * Create Provider instance
-     *
-     * @param Model|Collection $model
-     */
-    public function __construct(protected Model|Collection $model)
-    {
-    }
 }
 

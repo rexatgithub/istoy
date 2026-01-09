@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 
 /**
- * @see https://smmlite.com/api Order Status Section
+ * @link https://smmlite.com/api Order Status Section
  */
 class Status extends AbstractRequestDefinition
 {

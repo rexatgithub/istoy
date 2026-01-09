@@ -9,6 +9,7 @@ A Laravel package for managing social media service providers (SMM) with an exte
 - **Order Management**: Built-in `OrderService` for managing orders across providers
 - **Request Definitions**: Structured HTTP request handling with validation
 - **Status Synchronization**: Sync order statuses between your application and external providers
+- **Cancel Order:** Opt-out pushed order from the provider
 
 ## Requirements
 
@@ -261,7 +262,7 @@ $success = $orderService->start();
 $success = $orderService->start(interval: 5);
 ```
 
-### Syncing Order Statuses
+### Syncing Order(s) Statuses
 
 ```php
 use Istoy\Services\OrderService;
@@ -269,6 +270,16 @@ use Istoy\Services\OrderService;
 $orderService = new OrderService($order);
 $orderService->syncStatuses();
 ```
+
+### Cancelling Order(s)
+
+```php
+use Istoy\Services\OrderService;
+
+$orderService = new OrderService($order);
+$orderService->cancel();
+```
+
 
 ### Using Providers Directly
 
@@ -287,6 +298,9 @@ $provider->add(interval: 10);
 
 // Check statuses
 $provider->statuses();
+
+// Cancel Order
+$provider->cancel();
 ```
 
 ### Using SMM Provider Directly
@@ -300,6 +314,7 @@ $smmService = new Service($order);
 
 $smmService->add(interval: 5);
 $smmService->statuses();
+$smmService->cancel();
 ```
 
 ## Creating Custom Providers
@@ -327,6 +342,11 @@ class CustomProvider extends AbstractProvider
     }
 
     public function statuses(): void
+    {
+        // Implement your status check logic
+    }
+
+    public function cancel(): void
     {
         // Implement your status check logic
     }

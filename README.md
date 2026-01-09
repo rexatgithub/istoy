@@ -395,7 +395,7 @@ vendor/bin/phpunit --coverage-html coverage
 The test suite includes:
 
 - **Unit Tests**: Tests for individual components
-  - Enums (Services, OrderStatuses, Statuses)
+  - Enums (Statuses)
   - Factory pattern for provider creation
   - OrderService for order management
   - SMM Service provider
